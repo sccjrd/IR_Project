@@ -1,9 +1,7 @@
-import { Paper, Box, Typography, Link } from "@mui/material";
+import { Paper, Box, Typography, Link as MuiLink } from "@mui/material";
+import SimilarHacksAccordion from "./SimilarHacksAccordion";
 
-/**
- * Highlight occurrences of `query` inside `text` using <mark>.
- * Case-insensitive, phrase-based.
- */
+/** Highlight occurrences of `query` inside `text` using <mark>. */
 function highlightText(text, query) {
   if (!text || !query) return text;
 
@@ -22,14 +20,10 @@ function highlightText(text, query) {
   );
 }
 
-/**
- * Build a snippet centered around the first occurrence of the query
- * - If query is present, cut a window around it, add leading/trailing "..." if needed.
- * - If not present, fall back to the beginning of the text.
- */
+/** Build a snippet centered around the first occurrence of the query. */
 function buildSnippet(result, query) {
   const fullText =
-    result.content || result.excerpt || "No description available yet.";
+    result?.content || result?.excerpt || "No description available yet.";
 
   const SNIPPET_LENGTH = 260;
 
@@ -62,18 +56,20 @@ function buildSnippet(result, query) {
 
   let snippet = fullText.slice(start, end).trim();
 
-  if (start > 0) {
-    snippet = "…" + snippet;
-  }
-  if (end < fullText.length) {
-    snippet = snippet + "…";
-  }
+  if (start > 0) snippet = "…" + snippet;
+  if (end < fullText.length) snippet = snippet + "…";
 
   return snippet;
 }
 
 function SearchResultCard({ result, query }) {
   const snippet = buildSnippet(result, query);
+  const dateStr =
+    typeof result.date === "string"
+      ? result.date.slice(0, 10)
+      : result.date
+      ? String(result.date).slice(0, 10)
+      : "";
 
   return (
     <Paper
@@ -94,7 +90,7 @@ function SearchResultCard({ result, query }) {
         {/* Title */}
         <Typography
           variant="h6"
-          component={Link}
+          component={MuiLink}
           href={result.url}
           target="_blank"
           rel="noopener noreferrer"
@@ -104,7 +100,7 @@ function SearchResultCard({ result, query }) {
           {highlightText(result.title || "Untitled hack", query)}
         </Typography>
 
-        {/* Snippet (2–3 lines, clamped) */}
+        {/* Snippet */}
         <Typography
           variant="body2"
           color="text.secondary"
@@ -122,8 +118,11 @@ function SearchResultCard({ result, query }) {
         {/* Meta line */}
         <Typography variant="caption" color="text.secondary" sx={{ mt: 0.5 }}>
           {result.author && `${result.author} · `}
-          {result.date ? result.date.toString().substring(0, 10) : ""}
+          {dateStr}
         </Typography>
+
+        {/* Similar hacks accordion */}
+        <SimilarHacksAccordion hackId={result.id} />
       </Box>
     </Paper>
   );

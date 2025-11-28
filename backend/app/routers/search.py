@@ -38,7 +38,7 @@ def search_hacks(
                 "text": {
                     "query": query,
                     "path": ["title", "content"],
-                    # "fuzzy": {"maxEdits": 1}  # optional
+                    "fuzzy": {"maxEdits": 1}
                 }
                 }
             ],
@@ -83,7 +83,7 @@ def search_hacks(
                     "text": {
                         "query": query,
                         "path": ["title", "content"],
-                        # "fuzzy": {"maxEdits": 1}  # optional
+                        "fuzzy": {"maxEdits": 1}  # optional
                     }
                     }
                 ],

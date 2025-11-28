@@ -21,12 +21,10 @@ export function useSimilar(hackId, options = {}) {
         const raw = await getSimilar({ hackId, limit });
 
         const arr = Array.isArray(raw) ? raw : [];
-        console.log("similar hacks for", hackId, arr);
 
         setSimilar(arr);
         setHasFetched(true);
       } catch (err) {
-        console.error("Failed to load similar hacks:", err);
         setError(err?.message || "Failed to load similar hacks");
         setSimilar([]);
       } finally {

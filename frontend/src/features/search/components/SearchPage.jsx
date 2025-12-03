@@ -27,8 +27,24 @@ function SearchPage() {
   return (
     <Container maxWidth="md" sx={{ py: 6 }}>
       <Box sx={{ textAlign: "center", mb: 4 }}>
-        <Typography variant="h3" component="h1" sx={{ fontWeight: 600 }}>
-          IKEA Hacks Search
+        <Typography
+          variant="h3"
+          component="h1"
+          sx={{
+            fontWeight: 600,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            mb: 1,
+          }}
+        >
+          <Box
+            component="img"
+            src="/ikea-logo.jpg"
+            alt="IKEA"
+            sx={{ height: "1.5em", verticalAlign: "middle", mr: 1 }}
+          />
+          Hacks Search
         </Typography>
         <Typography variant="subtitle1" color="text.secondary">
           Search across IKEA hacks from multiple websites and{" "}

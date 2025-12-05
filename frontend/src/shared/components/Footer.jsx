@@ -24,7 +24,7 @@ function Footer() {
       >
         Built by Francesc Jordi Sacco & Theodor Vavassori -{"  "}
         <Link
-          href="https://github.com/sccjrd/IR_Project"
+          href="https://github.com/sccjrd/ir-project"
           target="_blank"
           rel="noopener noreferrer"
           sx={{ display: "inline-flex", alignItems: "center" }}

@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Container, Box, Typography, Chip } from "@mui/material";
+import { Container, Box, Typography, Chip, Link } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import SearchBar from "./SearchBar.jsx";
 import SearchResultList from "./SearchResultList.jsx";
@@ -9,9 +9,11 @@ import TopCategoriesSection from "./TopCategoriesSection.jsx";
 import { useSearch } from "../hooks/useSearch.js";
 import { useHacksByCategory } from "../hooks/useHacksByCategory.js";
 import ErrorBanner from "../../../shared/components/ErrorBanner.jsx";
+import DefinitionDialog from "../../../shared/components/DefinitionDialog.jsx";
 
 function SearchPage() {
   const [selectedCategory, setSelectedCategory] = useState(null);
+  const [definitionOpen, setDefinitionOpen] = useState(false);
 
   // Text search hook
   const textSearch = useSearch(10);
@@ -98,8 +100,31 @@ function SearchPage() {
           Hacks Search
         </Typography>
         <Typography variant="subtitle1" color="text.secondary">
-          Search across IKEA hacks from multiple websites and{" "}
-          <a href="https://www.reddit.com/r/ikeahacks/">r/ikeahacks</a>
+          Search across{" "}
+          <Link
+            component="button"
+            variant="subtitle1"
+            onClick={() => setDefinitionOpen(true)}
+            sx={{
+              cursor: "pointer",
+              textDecoration: "underline",
+              textDecorationStyle: "dotted",
+              textUnderlineOffset: 2,
+              "&:hover": {
+                textDecorationStyle: "solid",
+              },
+            }}
+          >
+            IKEA hacks
+          </Link>{" "}
+          from multiple websites and{" "}
+          <Link
+            target="_blank"
+            rel="noopener noreferrer"
+            href="https://www.reddit.com/r/ikeahacks/"
+          >
+            r/ikeahacks
+          </Link>
         </Typography>
       </Box>
 
@@ -153,6 +178,11 @@ function SearchPage() {
         totalPages={totalPages}
         onChange={handlePageChange}
         disabled={loading}
+      />
+
+      <DefinitionDialog
+        open={definitionOpen}
+        onClose={() => setDefinitionOpen(false)}
       />
     </Container>
   );

@@ -17,7 +17,7 @@ def _iter_hacks_needing_tokens(limit: Optional[int] = None):
     """
     coll = get_collection(HACKS_COLLECTION_NAME)
 
-    cursor = coll.find({})
+    cursor = coll.find({}, no_cursor_timeout=True)
 
     if limit is not None:
         cursor = cursor.limit(limit)

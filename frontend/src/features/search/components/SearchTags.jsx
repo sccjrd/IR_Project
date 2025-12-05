@@ -25,14 +25,14 @@ function SearchTags({ categories }) {
     >
       <AccordionSummary expandIcon={<ExpandMoreIcon />}>
         <Typography variant="body2" sx={{ fontWeight: 500 }}>
-          Show tags
+          Show categories
         </Typography>
       </AccordionSummary>
       <AccordionDetails>
         <Box sx={{ display: "flex", gap: 1, flexWrap: "wrap" }}>
-          {categories.map((tag) => (
+          {categories.map((category) => (
             <Button
-              key={tag}
+              key={category}
               size="small"
               variant="outlined"
               disableElevation
@@ -44,7 +44,7 @@ function SearchTags({ categories }) {
                 paddingX: 1.5,
               }}
             >
-              {tag}
+              {category}
             </Button>
           ))}
         </Box>

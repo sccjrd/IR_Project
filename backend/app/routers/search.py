@@ -177,6 +177,71 @@ def get_similar_hacks(
     return [mongo_doc_to_hack(doc) for doc in docs]
 
 
+@router.get("/categories/top", response_model=List[dict])
+def get_top_categories(
+    limit: int = Query(6, ge=1, le=20),
+    db=Depends(mongo.get_db),
+):
+    """
+    Get the top categories by frequency from the hacks_all collection.
+    Returns a list of categories with their counts, sorted by count descending.
+    """
+    collection = db["hacks_all"]
+
+    pipeline = [
+        # Unwind the categories array to create a document for each category
+        {"$unwind": "$categories"},
+        # Group by each category and count occurrences
+        {"$group": {"_id": "$categories", "count": {"$sum": 1}}},
+        # Sort categories by count in descending order
+        {"$sort": {"count": -1}},
+        # Limit the result to the specified number
+        {"$limit": limit},
+        # Project to clean up the output
+        {"$project": {"category": "$_id", "count": 1, "_id": 0}}
+    ]
+
+    results = list(collection.aggregate(pipeline))
+    return results
+
+
+@router.get("/categories/{category_name}/hacks", response_model=SearchResult)
+def get_hacks_by_category(
+    category_name: str,
+    page: int = Query(1, ge=1),
+    page_size: int = Query(10, ge=1, le=50),
+    db=Depends(mongo.get_db),
+):
+    """
+    Get all hacks that belong to a specific category.
+    Returns paginated results with total count.
+    """
+    collection = db["hacks_all"]
+
+    # Calculate pagination
+    skip = (page - 1) * page_size
+
+    # Query to find hacks with the specific category
+    query = {"categories": category_name}
+
+    # Get the hacks for current page
+    cursor = collection.find(query).skip(skip).limit(page_size)
+    hit_docs = list(cursor)
+    hits: List[Hack] = [mongo_doc_to_hack(doc) for doc in hit_docs]
+
+    # Get total count
+    total = collection.count_documents(query)
+    total_pages = math.ceil(total / page_size) if total > 0 else 0
+
+    return SearchResult(
+        total=total,
+        page=page,
+        page_size=page_size,
+        total_pages=total_pages,
+        hits=hits,
+    )
+
+
 # Search Index:
 
 # { "mappings": { "dynamic": false, "fields": { "title": { "type": "string", "analyzer": "lucene.english" }, "content": { "type": "string", "analyzer": "lucene.english" }, "excerpt": { "type": "string", "analyzer": "lucene.english" }, "author": { "type": "string" }, "url": { "type": "string" }, "source": { "type": "string" }, "categories": { "type": "string" }, "tags": { "type": "string" }, "image_url": { "type": "string" }, "date": { "type": "date" } } } }

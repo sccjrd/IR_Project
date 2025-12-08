@@ -11,7 +11,6 @@ A full-stack search engine for discovering and exploring IKEA hacks from multipl
 └── README.md          # This file
 ```
 
-
 ## Features
 
 - **Full-text search** across thousands of IKEA hack projects
@@ -47,15 +46,16 @@ cd ir-project
 
 ### 2. Set up the Backend
 
+See the [Backend README](backend/README.md) for detailed setup instructions.
+
 ```bash
 cd backend
 python -m venv .venv
 source .venv/bin/activate  # On Windows: .venv\Scripts\activate
 pip install -r requirements.txt
 
-# Create .env file
-cp .env.example .env
-# Edit .env with your MongoDB URI and other settings
+# Create .env file with your MongoDB credentials
+# See backend/README.md for required environment variables
 
 # Start the server
 uvicorn app.main:app --reload
@@ -65,13 +65,14 @@ Backend runs on `http://localhost:8000`
 
 ### 3. Set up the Frontend
 
+See the [Frontend README](frontend/README.md) for detailed setup instructions.
+
 ```bash
 cd frontend
 npm install
 
-# Create .env file
-cp .env.example .env
-# Edit .env with your backend URL
+# Create .env file with backend URL
+# See frontend/README.md for required environment variables
 
 # Start the dev server
 npm run dev
@@ -81,6 +82,8 @@ Frontend runs on `http://localhost:5173`
 
 ### 4. Run the Crawler (Optional)
 
+See the [Crawler README](crawler/README.md) for detailed crawler documentation.
+
 ```bash
 cd crawler
 python -m venv .venv
@@ -88,13 +91,18 @@ source .venv/bin/activate
 pip install -r requirements.txt
 
 # Create .env file with MongoDB credentials
-cp .env.example .env
+# See crawler/README.md for configuration details
 
 # Run all crawlers
 python scraper/run_crawlers.py
+
+# Build combined collection
+python scraper/build_hacks_all.py
 ```
 
 ### 5. Tokenize Data with LLM (Optional)
+
+See the [Backend README - LLM Tokenization](backend/README.md#llm-tokenization) section for Ollama setup.
 
 ```bash
 cd backend
@@ -104,7 +112,18 @@ python -m app.tokenization.cli --limit 100
 
 ## Authors
 
-- Sacco Francesc Jordi 
-- Vavassori Theodor 
+- Sacco Francesc Jordi
+- Vavassori Theodor
+
+## License
+
+Academic project for Information Retrieval 2025 course.
+
+---
+
+For detailed setup and usage instructions, please refer to the individual component READMEs:
+- [Frontend Setup →](frontend/README.md)
+- [Backend Setup →](backend/README.md)
+- [Crawler Setup →](crawler/README.md)
 
 

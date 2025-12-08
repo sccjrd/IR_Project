@@ -1,8 +1,34 @@
-import { Box, Typography, Link } from "@mui/material";
+import { Box, Typography, Link, IconButton } from "@mui/material";
+import {
+  Brightness7 as Brightness7Icon,
+  Brightness4 as Brightness4Icon,
+} from "@mui/icons-material";
 
-function Header({ setDefinitionOpen }) {
+function Header({ setDefinitionOpen, toggleColorMode, mode }) {
   return (
-    <Box sx={{ textAlign: "center", mb: 4, py: 6 }}>
+    <Box
+      sx={{
+        textAlign: "center",
+        py: 6,
+        position: "relative",
+      }}
+    >
+      <Box
+        sx={{
+          position: "absolute",
+          right: 16,
+          top: 16,
+        }}
+      >
+        <IconButton
+          onClick={toggleColorMode}
+          color="inherit"
+          aria-label="toggle dark mode"
+        >
+          {mode === "dark" ? <Brightness7Icon /> : <Brightness4Icon />}
+        </IconButton>
+      </Box>
+
       <Typography
         variant="h3"
         component="h1"
@@ -12,6 +38,8 @@ function Header({ setDefinitionOpen }) {
           alignItems: "center",
           justifyContent: "center",
           mb: 1,
+          flexWrap: "wrap",
+          gap: 1,
         }}
       >
         <Box

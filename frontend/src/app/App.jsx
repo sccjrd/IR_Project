@@ -8,13 +8,17 @@ function App({ toggleColorMode, mode }) {
   return (
     <div style={{ flex: 1, display: "flex", flexDirection: "column" }}>
       <div style={{ flex: 1 }}>
-        <Header setDefinitionOpen={setDefinitionOpen} />
+        <Header
+          setDefinitionOpen={setDefinitionOpen}
+          toggleColorMode={toggleColorMode}
+          mode={mode}
+        />
         <SearchPage
           setDefinitionOpen={setDefinitionOpen}
           definitionOpen={definitionOpen}
         />
       </div>
-      <Footer toggleColorMode={toggleColorMode} mode={mode} />
+      <Footer mode={mode} />
     </div>
   );
 }

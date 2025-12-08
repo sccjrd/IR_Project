@@ -1,8 +1,6 @@
-import { Box, Typography, Link, IconButton } from "@mui/material";
-import Brightness4Icon from "@mui/icons-material/Brightness4";
-import Brightness7Icon from "@mui/icons-material/Brightness7";
+import { Box, Typography, Link } from "@mui/material";
 
-function Footer({ toggleColorMode, mode }) {
+function Footer({ mode }) {
   return (
     <Box
       component="footer"
@@ -12,27 +10,8 @@ function Footer({ toggleColorMode, mode }) {
         textAlign: "center",
         borderTop: 1,
         borderColor: "divider",
-        position: "relative",
       }}
     >
-      {/* Dark mode toggle in top right of footer */}
-      <Box
-        sx={{
-          position: "absolute",
-          right: 16,
-          top: "50%",
-          transform: "translateY(-50%)",
-        }}
-      >
-        <IconButton
-          onClick={toggleColorMode}
-          color="inherit"
-          aria-label="toggle dark mode"
-        >
-          {mode === "dark" ? <Brightness7Icon /> : <Brightness4Icon />}
-        </IconButton>
-      </Box>
-
       <Typography
         variant="body2"
         color="text.secondary"
@@ -51,11 +30,13 @@ function Footer({ toggleColorMode, mode }) {
           sx={{ display: "inline-flex", alignItems: "center" }}
         >
           <img
-            src={
-              mode === "dark" ? "./github-mark-white.svg" : "./github-mark.svg"
-            }
+            src="./github-mark.svg"
             alt="GitHub repository"
-            style={{ width: 20, height: 20 }}
+            style={{
+              width: 20,
+              height: 20,
+              filter: mode === "dark" ? "invert(1)" : "none",
+            }}
           />
         </Link>
       </Typography>

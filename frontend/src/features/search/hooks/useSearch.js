@@ -19,6 +19,8 @@ export function useSearch(initialPageSize = 10) {
     try {
       setLoading(true);
       setError(null);
+      setResults([]);
+      setTotalPages(0);
 
       const data = await searchHacks({
         query,
@@ -46,6 +48,14 @@ export function useSearch(initialPageSize = 10) {
   const updateQuery = (value) => {
     setQuery(value);
     setPage(1);
+
+    // Reset everything when query is cleared
+    if (!value.trim()) {
+      setResults([]);
+      setTotal(0);
+      setTotalPages(0);
+      setError(null);
+    }
   };
 
   return {

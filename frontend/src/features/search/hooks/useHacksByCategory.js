@@ -21,6 +21,7 @@ export function useHacksByCategory(categoryName, options = {}) {
 
       setLoading(true);
       setError(null);
+      setResult((prev) => ({ ...prev, hits: [], totalPages: 0 }));
 
       try {
         const data = await getHacksByCategory({
